@@ -1,0 +1,55 @@
+// Postman Test Scripts for EduFeedback API
+
+// 1. Register Admin User
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "email": "admin@example.com",
+    "password": "admin123"
+}
+
+// 2. Login
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+// 3. Create Subject
+POST http://localhost:8080/api/subjects
+Content-Type: application/json
+
+{
+    "subjectName": "Mathematics"
+}
+
+// 4. Get All Subjects
+GET http://localhost:8080/api/subjects
+
+// 5. Create Section
+POST http://localhost:8080/api/sections?subjectId=1
+Content-Type: application/json
+
+{
+    "sectionName": "Section A"
+}
+
+// 6. Get All Sections
+GET http://localhost:8080/api/sections
+
+// 7. Create Student
+POST http://localhost:8080/api/students
+Content-Type: application/json
+
+{
+    "studentName": "John Doe",
+    "email": "john@example.com",
+    "section": {"id": 1}
+}
+
+// 8. Get All Students
+GET http://localhost:8080/api/students
