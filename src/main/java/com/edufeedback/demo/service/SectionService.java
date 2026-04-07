@@ -33,6 +33,7 @@ public class SectionService {
         Section existing = sectionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Section not found: " + id));
         existing.setSectionName(section.getSectionName());
+        existing.setDescription(section.getDescription());
         return sectionRepository.save(existing);
     }
 

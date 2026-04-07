@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/suggestions")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 public class SuggestionController {
 
     private final SuggestionService suggestionService;
@@ -23,9 +23,11 @@ public class SuggestionController {
     }
 
     @PostMapping
-    public ResponseEntity<Suggestion> create(
-            @RequestParam Long sectionId,
-            @RequestBody Suggestion suggestion) {
+    public ResponseEntity<Suggestion> create(@RequestBody Suggestion suggestion) {
+        Long sectionId = suggestion.getSection() != null ? suggestion.getSection().getId() : null;
+        if (sectionId == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(suggestionService.create(sectionId, suggestion));
     }
 }
