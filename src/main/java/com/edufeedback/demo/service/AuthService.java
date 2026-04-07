@@ -25,7 +25,7 @@ public class AuthService {
     public AdminUser register(AdminUser adminUser) {
 
         Optional<AdminUser> existingUser =
-                adminUserRepository.findByUsername(adminUser.getName());
+                adminUserRepository.findByUsername(adminUser.getUsername());
 
         if (existingUser.isPresent()) {
             throw new RuntimeException("Username already exists");
@@ -40,7 +40,7 @@ public class AuthService {
     public AdminUser login(AdminUser adminUser) {
 
         Optional<AdminUser> optionalUser =
-                adminUserRepository.findByUsername(adminUser.getName());
+                adminUserRepository.findByUsername(adminUser.getUsername());
 
         if (optionalUser.isEmpty()) {
             throw new RuntimeException("User not found");
