@@ -1,7 +1,9 @@
 package com.edufeedback.demo.controller;
 
 import com.edufeedback.demo.model.AdminUser;
+import com.edufeedback.demo.model.AuthResponse;
 import com.edufeedback.demo.service.AuthService;
+import com.edufeedback.demo.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,18 +13,24 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtUtil jwtUtil;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, JwtUtil jwtUtil) {
         this.authService = authService;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AdminUser> register(@RequestBody AdminUser adminUser) {
-        return ResponseEntity.ok(authService.register(adminUser));
+    public ResponseEntity<AuthResponse> register(@RequestBody AdminUser adminUser) {
+        AdminUser saved = authService.register(adminUser);
+        String token = jwtUtil.generateToken(saved);
+        return ResponseEntity.ok(new AuthResponse(saved.getId(), saved.getUsername(), saved.getEmail(), token));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AdminUser> login(@RequestBody AdminUser adminUser) {
-        return ResponseEntity.ok(authService.login(adminUser));
+    public ResponseEntity<AuthResponse> login(@RequestBody AdminUser adminUser) {
+        AdminUser existing = authService.login(adminUser);
+        String token = jwtUtil.generateToken(existing);
+        return ResponseEntity.ok(new AuthResponse(existing.getId(), existing.getUsername(), existing.getEmail(), token));
     }
 }
