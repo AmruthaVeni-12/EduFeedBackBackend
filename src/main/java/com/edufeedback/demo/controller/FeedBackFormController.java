@@ -24,9 +24,16 @@ public class FeedBackFormController {
 
     @PostMapping
     public ResponseEntity<FeedBackForm> create(
-            @RequestParam Long sectionId,
+            @RequestParam(required = false) Long sectionId,
             @RequestBody FeedBackForm form) {
-        return ResponseEntity.ok(formService.create(sectionId, form));
+        Long resolvedSectionId = sectionId;
+        if (resolvedSectionId == null && form.getSection() != null) {
+            resolvedSectionId = form.getSection().getId();
+        }
+        if (resolvedSectionId == null) {
+            throw new IllegalArgumentException("sectionId is required to create a form");
+        }
+        return ResponseEntity.ok(formService.create(resolvedSectionId, form));
     }
 
     @PutMapping("/{id}")

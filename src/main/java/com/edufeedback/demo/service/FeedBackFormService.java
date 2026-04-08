@@ -34,6 +34,10 @@ public class FeedBackFormService {
                 .orElseThrow(() -> new IllegalArgumentException("Form not found: " + id));
         existing.setTitle(form.getTitle());
         existing.setDescription(form.getDescription());
+        existing.setStartDate(form.getStartDate());
+        existing.setEndDate(form.getEndDate());
+        existing.setTimeLimitMinutes(form.getTimeLimitMinutes());
+        existing.setQuestionsJson(form.getQuestionsJson());
         return formRepository.save(existing);
     }
 

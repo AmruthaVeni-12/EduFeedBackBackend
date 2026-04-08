@@ -2,6 +2,7 @@ package com.edufeedback.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @JsonIgnoreProperties({"section"})
@@ -13,6 +14,12 @@ public class FeedBackForm {
 
     private String title;
     private String description;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Integer timeLimitMinutes;
+
+    @Lob
+    private String questionsJson;
 
     @ManyToOne
     @JoinColumn(name = "section_id")
